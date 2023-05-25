@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CONTROL-E</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="estilo.css">
+
+	<style>
+		#navigation {
+			pointer-events: none;
+			opacity: 0.6;
+		}
+		
+		#submitForm:disabled {
+			opacity: 0.5; /* Isso faz o botão parecer esmaecido */
+		}
+
+		#submitForm:focus {
+			outline: none; /* Isso remove o foco padrão do navegador */
+			box-shadow: 0 0 10px #719ECE; /* Isso adiciona um glow azul ao redor do botão quando ele está focado */
+		}
+	</style>
+	
+</head>
+
+<body>
+	<header>
+		<h1>CONTROL-E</h1>
+		<nav id="navigation">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="enter.html">Anterior</a></li>
+				<li><a href="shiftkey.html">Próximo</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<div class="content" style="display: flex; flex-direction: row;">
+			<div class="image" style="width: 50%;">
+				<img src="tab_key.jfif" alt="Teclado com destaque para a tecla TAB">
+				<h3>Localize a tecla TAB no seu teclado</h3>
+				<h2>Principais funções da tecla TAB</h2>
+				<p>A tecla TAB é utilizada para inserir um caractere de tabulação numa edição de textos (fazer um parágrafo) ou, principalmente,
+				mover o cursor para o próximo campo ou elemento de um formulário ou janela.</p>
+				
+			</div>
+			<div class="form" style="width: 50%;">
+				<h2>Prática</h2>
+				<p>Vamos testar a troca de campos em formulários. Na prática ao lado, após inserir o conteúdo de cada campo do formulário, 
+				pressione TAB para sair do campo. Após informar nome e sobrenome, tecle ENTER no botão 'Enviar Formulário' para encerrar a atividade
+				e usar o menu de navegação para continuar.</p>
+				<form style="border: 2px solid #333; padding: 20px;" id="practiceForm">
+					<label for="firstName">Digite seu primeiro nome:</label>
+					<input type="text" id="firstName" name="firstName" tabindex="1"><br><br>
+					<label for="lastName">Digite o seu último nome:</label>
+					<input type="text" id="lastName" name="lastName" tabindex="2"><br><br>
+					<button type="submit" id="submitForm" tabindex="3" disabled>Enviar Formulário</button>
+				</form>
+			</div>
+		</div>
+	</main>
+
+	<footer>
+		<p>&copy; 2023 CONTROL-E. Todos os direitos reservados.</p>
+	</footer>
+
+	<script>
+window.onload = function() {
+	document.getElementById("firstName").focus();
+};
+
+document.getElementById('practiceForm').addEventListener('submit', function(event) {
+	event.preventDefault();
+	document.getElementById('navigation').style.pointerEvents = 'auto';
+	document.getElementById('navigation').style.opacity = '1';
+});
+
+document.getElementById('firstName').addEventListener('keydown', function(event) {
+	if (event.key === "Tab" && this.value === '') {
+		event.preventDefault();
+		alert("Por favor, preencha o primeiro nome antes de avançar.");
+	}
+});
+
+document.getElementById('lastName').addEventListener('keydown', function(event) {
+	if (event.key === "Tab" && this.value === '') {
+		event.preventDefault();
+		alert("Por favor, preencha o último nome antes de avançar.");
+	} else if (this.value !== '') {
+		document.getElementById('submitForm').disabled = false;
+	}
+});
+
+document.getElementById('submitForm').addEventListener('mousedown', function(event) {
+	event.preventDefault();
+});
+
+document.addEventListener("keydown", function(event) {
+	if (event.key === "Enter") {
+		if (document.activeElement.type !== "submit") {
+			event.preventDefault();
+			alert("Pressione TAB para avançar para o próximo campo.");
+		} else {
+			// código para enviar o formulário aqui
+		}
+	}
+});
+</script>
+
+</body>
+</html>

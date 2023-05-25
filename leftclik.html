@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Click do Mouse</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="mouse.css">
+    <style>
+        #navigation {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .content {
+            display: flex;
+        }
+        .column {
+            flex-basis: 33.33%;
+        }
+        .pratica {
+            position: relative;
+            height: 360px;
+            border: 2px solid #ccc;
+            margin: 20px;
+            padding: 20px;
+        }
+        .point {
+            width: 20px;
+            height: 20px;
+            background-color: #000;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .line {
+            position: absolute;
+            background-color: #000;
+            pointer-events: none;
+            z-index: -1;
+        }
+        #completionMessage {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Click do Mouse</h1>
+        <nav id="navigation">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="mouse.html">Anterior</a></li>
+                <li><a href="doubleclick.html">Próximo</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content">
+            <div class="column">
+                <img src="leftclick.gif" alt="Botão esquerdo do mouse">
+            </div>
+            <div class="column">
+                <h2>Click do Mouse</h2>
+                <p>O click do mouse é uma das ações mais simples e comuns na interação do usuário com um computador. Ele consiste em pressionar um 
+                dos botões do mouse, geralmente o botão esquerdo, e soltá-lo rapidamente.</p>
+                <p>Os clicks do mouse são usados para realizar diversas tarefas, como selecionar um item na tela, abrir um menu, executar um programa, 
+                entre outras.</p>
+            </div>
+            <div class="column">
+                <div class="pratica">
+                    <p>Clique em cada um dos pontos abaixo para prosseguir</p>
+                    <div class="point" style="top: 100px; left: 200px;" onclick="checkPoint(1)">1</div>
+                    <div class="point" style="top: 200px; left: 100px;" onclick="checkPoint(2)">2</div>
+                    <div class="point" style="top: 300px; left: 150px;" onclick="checkPoint(3)">3</div>
+                    <div class="point" style="top: 250px; left: 250px;" onclick="checkPoint(4)">4</div>
+                    <div class="point" style="top: 150px; left: 300px;" onclick="checkPoint(5)">5</div>
+                </div>
+                <p id="completionMessage">Parabéns! Você clicou em todos os pontos. Para continuar, clique em "Próximo" no menu superior da tela.</p>
+                <div id="lines"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 CONTROL-E. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="mouse.js"></script>
+    <script>
+        var clickedPoints = [];
+        var points = document.querySelectorAll('.point');
+
+        function checkPoint(pointNumber) {
+            if (clickedPoints.includes(pointNumber)) {
+                return; // Impede que um ponto seja clicado novamente se já tiver sido clicado anteriormente
+            }
+
+            clickedPoints.push(pointNumber);
+
+            var point = points[pointNumber - 1];
+            point.style.backgroundColor = '#ff0000'; // Destaca o ponto clicado
+
+            if (clickedPoints.length >= 2) {
+                var previousPoint = points[clickedPoints[clickedPoints.length - 2] - 1];
+                drawLine(previousPoint, point); // Desenha uma linha entre os dois pontos clicados
+            }
+
+            if (clickedPoints.length === 5) {
+                enableNavigation();
+            }
+        }
+
+        function drawLine(startPoint, endPoint) {
+            var line = document.createElement('div');
+            line.className = 'line';
+            line.style.top = startPoint.offsetTop + startPoint.offsetHeight / 2 + 'px';
+            line.style.left = startPoint.offsetLeft + startPoint.offsetWidth / 2 + 'px';
+            line.style.width = getDistance(startPoint, endPoint) + 'px';
+            line.style.transform = getLineRotation(startPoint, endPoint);
+            document.getElementById('lines').appendChild(line);
+        }
+
+        function getDistance(point1, point2) {
+            var xDiff = point2.offsetLeft + point2.offsetWidth / 2 - point1.offsetLeft - point1.offsetWidth / 2;
+            var yDiff = point2.offsetTop + point2.offsetHeight / 2 - point1.offsetTop - point1.offsetHeight / 2;
+            return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+        }
+
+        function getLineRotation(point1, point2) {
+            var xDiff = point2.offsetLeft + point2.offsetWidth / 2 - point1.offsetLeft - point1.offsetWidth / 2;
+            var yDiff = point2.offsetTop + point2.offsetHeight / 2 - point1.offsetTop - point1.offsetHeight / 2;
+            var angle = Math.atan2(yDiff, xDiff) * (180 / Math.PI);
+            return 'rotate(' + angle + 'deg)';
+        }
+
+        function enableNavigation() {
+            document.getElementById('navigation').style.pointerEvents = 'auto';
+            document.getElementById('navigation').style.opacity = '1';
+            document.getElementById('completionMessage').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

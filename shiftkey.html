@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CONTROL-E</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="estilo.css">
+
+    <style>
+		.form-wrapper {
+			width: 100%;
+		}
+
+        .disabled-link {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        button[type="submit"]:disabled {
+            opacity: 0.5; /* Isso faz o botão parecer esmaecido */
+        }
+
+        button[type="submit"]:focus {
+            outline: none; /* Isso remove o foco padrão do navegador */
+            box-shadow: 0 0 10px #719ECE; /* Isso adiciona um glow azul ao redor do botão quando ele está focado */
+        }
+
+        input[type="text"] {
+            font-family: Tahoma, sans-serif;
+        }
+
+        footer {
+            position: relative;  
+            bottom: 80px; 
+            width: 100%;  
+        }
+		.content {
+			display: block;
+		}
+
+		.image {
+			display: inline-block;
+			width: 50%;
+			vertical-align: top;
+		}
+
+		.form-column {
+			display: inline-block;
+			width: 45%;
+			vertical-align: top;
+		}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CONTROL-E</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tabkey.html">Anterior</a></li>
+                <li><a href="capskey.html">Próximo</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>A Tecla SHIFT</h2>
+        <h3>Encontre a 2 teclas SHIFT no seu teclado</h3>
+        <div class="content">
+            <div class="image">
+                <img src="shift_key.jfif" alt="Teclado com destaque para a tecla SHIFT">  
+                <p>Representada por uma seta para cima, está localizada nas duas extremidades do teclado. </p>
+                <p>Enquanto a tecla Shift estiver pressionada, todas as letras digitadas ficarão em maiúsculas em vez de minúsculas. Esse é seu principal objetivo.</p>
+                <p>Além disso, ao ser pressionada, é como se você estivesse "levantando" o teclado para acessar os caracteres na parte superior das teclas com dois caracteres, como acentos e símbolos especiais (@, $, %, *, etc.).</p>
+            </div>
+            <div class="form-column">
+                <div class="form-wrapper">
+                    <h3>Prática</h3>
+                    <p>Preencha os campos exatamente como descrito à esquerda de cada campo e pressone TAB para sair do campo. 
+					Tecle ENTER quando concluir e continue a atividade pelo menu de navegação</p>
+                    <form id="form1">
+                        <label for="campo1">A b C d E f G h i J</label>
+                        <input type="text" id="campo1" name="campo1" required>
+                        <div class="alert"></div>
+                        <label for="campo2">@ 4 $ 7 * =</label>
+                        <input type="text" id="campo2" name="campo2" required>
+                        <div class="alert"></div>
+                        <label for="campo3">ã Ô â é Á Ê</label>
+                        <input type="text" id="campo3" name="campo3" required>
+                        <div class="alert"></div>
+                        <button type="submit">Enviar Formulário</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="validacao-formulario.js"></script>
+        <script>
+            window.onload = function() {
+                var links = document.querySelectorAll('nav a');
+                for (var i = 0; i < links.length; i++) {
+                    links[i].classList.add('disabled-link');
+                }
+                document.getElementById("campo1").focus();
+            };
+
+            document.getElementById('form1').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var links = document.querySelectorAll('nav a');
+                for (var i = 0; i < links.length; i++) {
+                    links[i].classList.remove('disabled-link');
+                }
+            });
+
+            var inputFields = document.querySelectorAll('input');
+            for (var i = 0; i < inputFields.length; i++) {
+                inputFields[i].addEventListener('keydown', function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                    }
+                });
+            }
+
+            var submitButton = document.querySelector('button[type="submit"]');
+            submitButton.addEventListener('keydown', function(event) {
+                if (event.key !== "Enter") {
+                    event.preventDefault();
+                }
+            });
+
+            validarFormulario();
+        </script>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 CONTROL-E. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tecla CTRL</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="estilo.css">
+	<style>
+		.disabled-link {
+			pointer-events: none;
+			opacity: 0.6;
+		}
+		
+		button[type="submit"]:disabled {
+			opacity: 0.5;
+		}
+	</style>
+</head>
+<body>
+  <header>
+    <h1>CONTROL-E</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="disabled-link">Home</a></li>
+        <li><a href="esckey.html" class="disabled-link">Anterior</a></li>
+        <li><a href="altkey.html" class="disabled-link">Próximo</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="content">
+      <div class="image">
+        <img src="ctrl_key.jfif" alt="Teclado com destaque para a tecla CTRL">
+		<h3>Encontre as 2 teclas CTRL no seu teclado</h3>
+      </div>
+      <div class="explanation">
+        <h2>A Tecla CTRL</h2>
+        <p>A tecla CTRL (Control) é usada em combinação com outras teclas para executar funções específicas em programas de computador. 
+		Além disso, ela é muito usada para acessar atalhos de teclado em programas e sistemas operacionais</p>
+        <p>Algumas combinações comuns de teclas com CTRL incluem:</<br>
+        <br>		CTRL+C	: para copiar
+        <br>		CTRL+V 	: para colar
+        <br>     	CTRL+Z 	: para desfazer a última ação</p>
+        <p>Selecione algo dessa pagina e cole no campo 1 do formulário. Depois, selecione outra coisa e cole no campo 2. Envie e formulário
+		e escolha uma opção do menu de navegação para continuar.</p>
+      </div>
+	  <div class="practice">
+		<form id="form">
+			<label for="campo1">Campo 1</label>
+			<input type="text" id="campo1" name="campo1" required>
+			<label for="campo2">Campo 2</label>
+			<input type="text" id="campo2" name="campo2" required>
+			<button type="submit" id="submit-btn" disabled>Enviar Formulário</button>
+		</form>
+	  </div>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2023 CONTROL-E. Todos os direitos reservados.</p>
+  </footer>
+  <script>
+	const campo1 = document.getElementById('campo1');
+	const campo2 = document.getElementById('campo2');
+	const submitBtn = document.getElementById('submit-btn');
+	const form = document.getElementById('form');
+	
+    document.addEventListener('keydown', event => {
+      if (event.ctrlKey && event.code === 'KeyN') {
+        var links = document.querySelectorAll('nav a');
+		for (var i = 0; i < links.length; i++) {
+			links[i].classList.remove('disabled-link');
+		}
+      }
+    });
+
+	campo1.addEventListener('keydown', event => {
+		if (!event.ctrlKey || event.code !== 'KeyV') {
+			event.preventDefault();
+		}
+	});
+	
+	campo2.addEventListener('keydown', event => {
+		if (!event.ctrlKey || event.code !== 'KeyV') {
+			event.preventDefault();
+		}
+	});
+	
+	campo1.addEventListener('input', () => {
+		if (campo1.value !== '' && campo2.value !== '' && campo1.value !== campo2.value) {
+			submitBtn.removeAttribute('disabled');
+		} else {
+			submitBtn.setAttribute('disabled', '');
+		}
+	});
+	
+	campo2.addEventListener('input', () => {
+		if (campo1.value !== '' && campo2.value !== '' && campo1.value !== campo2.value) {
+			submitBtn.removeAttribute('disabled');
+		} else {
+			submitBtn.setAttribute('disabled', '');
+		}
+	});
+	
+	form.addEventListener('submit', event => {
+		event.preventDefault();
+		
+		var links = document.querySelectorAll('nav a');
+		for (var i = 0; i < links.length; i++) {
+			links[i].classList.remove('disabled-link');
+		}
+	});
+  </script>
+</body>
+</html>

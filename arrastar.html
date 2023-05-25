@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Equalizador</title>
+    <link rel="stylesheet" href="estilo.css">
+    <style>
+        .slider-section {
+            display: flex;
+            justify-content: space-between;
+        }
+        .slider {
+            width: 500px;
+        }
+        /* Estilo para os links desativados */
+        .disabled {
+            pointer-events: none;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CONTROL-E</h1>
+        <nav>
+            <ul>
+                <li><a id="home-link" class="disabled" href="index.html">Home</a></li>
+                <li><a id="prev-link" class="disabled" href="rightclick.html">Anterior</a></li>
+                <li><a id="next-link" class="disabled" href="scroll.html">Próximo</a></li>               
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+		<section>
+			<p>Clicar e arrastar é uma operação comum usada em muitas interfaces de computador. Essa operação permite que você 'pegue' um item na 
+			tela e o mova para um novo local. Para realizar a operação de clicar e arrastar, aponte o mouse para o item que deseja arrastar.<br>
+			<ul><li><strong>o clique</strong>: Clique no botão esquerdo do mouse e continue segurando o botão.</li>
+				<li><strong>o arrastar</strong>: Sem soltar o botão do mouse, mova o cursor para o local desejado.</li>
+				<li><strong>o soltar</strong>: Quando o item estiver no local desejado, solte o botão do mouse.</li>
+			</ul>
+			<p>Vamos praticar a operação de clicar e arrastar com um exercício de correspondência. Do lado esquerdo, 
+			temos um "modelo" de equalizador com várias barras em diferentes posições.Sua tarefa é ajustar as barras do equalizador do usuário (à direita) 
+			para corresponder exatamente ao modelo. Clique e arraste cada barra	para mover sua posição.</p>
+            <p>Quando acreditar que fez todos os ajustes corretamente, clique no botão 'Verificar' para ver se você poderá seguir para o próximo desafio.
+        </section>
+        <div class="slider-section">
+            <div>
+                <p>Modelo:</p>
+                <div id="model"></div>
+            </div>
+            <div>
+                <p>Usuário:</p>
+                <div id="user"></div>
+            </div>
+        </div>
+        <button id="verify-button" onclick="checkValues()">Verificar</button>
+    </main>
+    <footer>
+        <p>&copy; 2023 CONTROL-E. Todos os direitos reservados.</p>
+    </footer>
+    <script>
+        /* Função para desativar ou ativar os links */
+        function toggleNavLinks(enabled) {
+            var links = ["home-link", "prev-link", "next-link"];
+            for (var i = 0; i < links.length; i++) {
+                var link = document.getElementById(links[i]);
+                link.classList.toggle('disabled', !enabled);
+            }
+        }
+        
+        /* Desativar os links inicialmente */
+        toggleNavLinks(false);
+
+        function createSliders() {
+            var modelValues = [50, 30, 70, 90, 20, 60];
+            var modelDiv = document.getElementById('model');
+            var userDiv = document.getElementById('user');
+            
+            for (var i = 0; i < modelValues.length; i++) {
+                var modelSlider = document.createElement('input');
+                modelSlider.type = 'range';
+                modelSlider.min = '1';
+                modelSlider.max = '100';
+                modelSlider.value = modelValues[i];
+                modelSlider.classList.add('slider');
+                modelSlider.disabled = true;
+                
+                var modelSpan = document.createElement('span');
+                modelSpan.textContent = modelValues[i];
+                
+                var modelContainer = document.createElement('div');
+                modelContainer.appendChild(modelSlider);
+                modelContainer.appendChild(modelSpan);
+                
+                modelDiv.appendChild(modelContainer);
+                
+                var userSlider = document.createElement('input');
+                userSlider.type = 'range';
+                userSlider.min = '1';
+                userSlider.max = '100';
+                userSlider.value = '0'; // Iniciando na posição 0
+                userSlider.classList.add('slider');
+                
+                var userSpan = document.createElement('span');
+                userSpan.textContent = '0'; // Iniciando na posição 0
+                
+                var userContainer = document.createElement('div');
+                userContainer.appendChild(userSlider);
+                userContainer.appendChild(userSpan);
+                
+                userDiv.appendChild(userContainer);
+            }
+        }
+        
+        createSliders();
+        
+        document.getElementById('user').addEventListener('input', function(e) {
+            if (e.target.classList.contains('slider')) {
+                e.target.nextSibling.textContent = e.target.value;
+            }
+        });
+        
+        function checkValues() {
+            var modelSliders = document.getElementById('model').getElementsByTagName('input');
+            var userSliders = document.getElementById('user').getElementsByTagName('input');
+            
+            for (var i = 0; i < modelSliders.length; i++) {
+                if (modelSliders[i].value != userSliders[i].value) {
+                    alert('Os valores não correspondem. Tente novamente.');
+                    return;
+                }
+            }
+            
+            var verifyButton = document.getElementById('verify-button');
+            verifyButton.style.display = 'none';
+            
+            var message = document.createElement('p');
+            message.textContent = 'Parabéns! Você conseguiu. Agora, "Próximo" para continuar';
+            var main = document.querySelector('main');
+            main.appendChild(message);
+            
+            /* Ativar os links depois que o usuário acertar todas as configurações */
+            toggleNavLinks(true);
+        }
+    </script>
+</body>
+</html>
